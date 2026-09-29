@@ -8,5 +8,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(receiver src/receiver_main.cpp)
 add_executable(sender src/sender_main.cpp)
 
- target_include_directories(receiver PRIVATE src)
- target_include_directories(sender PRIVATE src)
+add_library(udprx_core STATIC src/packet.cpp)
+
+target_include_directories(receiver PRIVATE include)
+target_include_directories(sender PRIVATE include)
+target_include_directories(udprx_core PUBLIC include)
+
+target_link_libraries(receiver PRIVATE udprx_core)
+target_link_libraries(sender PRIVATE udprx_core)
