@@ -1,6 +1,7 @@
 #include <arpa/inet.h>
 #include <string.h>
 #include "udprx/packet.hpp"
+#include "udprx/checksum.hpp"
 
 std::array<uint8_t, WIRE_SIZE> serialize(const Packet& packet) {
     std::array<uint8_t, WIRE_SIZE> data;
@@ -25,7 +26,8 @@ std::array<uint8_t, WIRE_SIZE> serialize(const Packet& packet) {
         memcpy(&data[12+(i*4)], &temp, sizeof(temp));
     }
 
-    uint32_t checksum = htonl(packet.checksum);
+    uint32_t checksum = crc32(&data[0], 24);
+    checksum = htonl(checksum);
     memcpy(&data[24], &checksum, sizeof(checksum));
 
     return data;

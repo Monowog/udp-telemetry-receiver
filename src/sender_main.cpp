@@ -5,20 +5,21 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include "udprx/checksum.hpp"
 #include "udprx/packet.hpp"
 
 #define PORTNUM 8080
 
 int main() {
-    Packet packet = {0}; //excample packet
+    Packet packet = {0}; //example packet
     packet.magic = 0x4226;
     packet.version = 0x01;
-    packet.sensor_type = 0x01;
+    packet.sensor_type = 0x00;
     packet.sequence_number = 0x00000001;
     packet.timestamp = 0x00000283;
-    packet.values[0] = 294.00711;
-    packet.values[1] = 93829.02927;
-    packet.values[2] = 5589.02983;
+    packet.values[0] = 294.007;
+    packet.values[1] = 93829.029;
+    packet.values[2] = 5589.029;
     packet.checksum = 0x00000000;
 
     printf("sender: starting\n");
